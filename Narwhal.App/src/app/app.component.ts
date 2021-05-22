@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import * as mapboxgl from 'mapbox-gl';
+import * as signalR from '@aspnet/signalr';
 
 @Component({
     selector: 'app-root',
@@ -12,8 +13,10 @@ export class AppComponent implements OnInit {
 
     map: mapboxgl.Map;
     hardwareRendering = mapboxgl.supported({ failIfMajorPerformanceCaveat: true });
+	hubConnection: signalR.HubConnection;
 
-    ngOnInit() {
+	ngOnInit()
+	{		
         const mapboxOptions: mapboxgl.MapboxOptions = {
             container: 'map',
             style: {
@@ -124,6 +127,7 @@ export class AppComponent implements OnInit {
 
         this.map.on('load', function() {
 
+			var t = 0;
             this.addSource('tracking-source', {
                 type: 'geojson',
                 data: {
@@ -211,6 +215,25 @@ export class AppComponent implements OnInit {
                 this.getCanvas().style.cursor = '';
                 popup.remove();
             });
-        });
-    }
+		});
+
+		this.PrepareSignalR();
+	}
+
+	private PrepareSignalR()
+	{		
+			this.hubConnection = new signalR.HubConnectionBuilder()
+				.withUrl('https://localhost:5001/Refresh', {
+					skipNegotiation: true,
+					transport: signalR.HttpTransportType.WebSockets
+				})
+				.build();
+
+			this.hubConnection
+				.start()
+				.then(() => {
+					console.log('Hub Connection Started!');
+				})
+				.catch(err => console.log('Error while starting connection: ' + err))
+	}
 }

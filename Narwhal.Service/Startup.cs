@@ -42,6 +42,7 @@ namespace Narwhal.Service
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<RefreshHub>("/Refresh");
             });
 
             // Debug gadget

@@ -12,10 +12,11 @@
 		"@angular/core": "~8.2.14",
 		"@angular/platform-browser": "~8.2.14",
 		"@angular/platform-browser-dynamic": "~8.2.14",
-		"tslib": "^1.10.0",
-		"zone.js": "~0.9.1",
+		"@aspnet/signalr": "^1.0.27",
 		"mapbox-gl": "^1.6.1",
-		"three": "^0.109.0"
+		"three": "^0.109.0",
+		"tslib": "^1.10.0",
+		"zone.js": "~0.9.1"
 	},
 	"devDependencies": {
 		"@angular-devkit/build-angular": "~0.803.23",
